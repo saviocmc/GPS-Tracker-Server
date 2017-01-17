@@ -1,5 +1,6 @@
-const util = require( "./util.js" );
 const fs = require( "fs" );
+const util = require( "./util.js" );
+const log = util.log;
 const urlParser = require( "url" ).parse;
 
 // These two map objects will be used for authentication purposes
@@ -12,14 +13,15 @@ for ( var token in TRACKERS_ID ) { var id = TRACKERS_ID [token] ; TRACKERS [id] 
  
 var server = require( 'http' ).createServer( (request, response) =>
 {
+	log.info("New " + request.method + " to " + request.url);
 	var resource = request.url.split("/") [1];
 	try {
 		if ( !( RESTfulMethod = RESTful [ request.method ] [ resource ] ) )
-			throw "Ressource \"" + resource + "\" not found in the RESTful map";
+			throw "Ressource \"" + resource + "\" not found in the RESTful methods map";
 	} catch (error) {
-		console.log( "\n" + new Date().toISOString() + " \n" + error + "\n" + request.method + " - " + request.url );
 		response.writeHead( 400 );
 		response.end( "400 - Bad Request" );
+		log.warn("Bad Request: " + error);
 		return;
 	}
 	RESTfulMethod (request, response);
@@ -28,8 +30,7 @@ var server = require( 'http' ).createServer( (request, response) =>
 // Starting the server with the configuration specified on the file "server.conf"
 var serverConf = JSON.parse( fs.readFileSync( "./server.conf" ) );
 server.listen( serverConf.port, serverConf.hostname, () =>
-	console.log( "\nServer started. Listening to: %s:%s - %s" ,
-		server.address().address, server.address().port, server.address().family) );
+	log.info( "Server started. Listening to: \n" + JSON.stringify( server.address(), null, 4 ) ) );
 
 const RESTful = { "GET" : { } , "POST" : { } }; // This map stores the references for the functions that will really handle the http requests
 
