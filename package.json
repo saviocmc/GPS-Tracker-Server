@@ -1,4 +1,4 @@
 {
-	"name": "BusTracker Server",
+	"name": "GPS-Tracker/Server",
 	"main": "server.js"
 }
