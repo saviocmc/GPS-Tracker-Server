@@ -4,8 +4,8 @@ const log = util.log;
 const urlParser = require( "url" ).parse;
 
 // These two map objects will be used for authentication purposes
-const TRACKERS_ID	= util.swap( JSON.parse( fs.readFileSync ( '../trackers.id' ) ) );
-const CLIENTS_ID	= util.swap( JSON.parse( fs.readFileSync ( '../clients.id' ) ) );
+const TRACKERS_ID	= util.swap( JSON.parse( fs.readFileSync ( './trackers.id' ) ) );
+const CLIENTS_ID	= util.swap( JSON.parse( fs.readFileSync ( './clients.id' ) ) );
 
 // This object will be used to store all the information posted by the trackers
 const TRACKERS = { };
