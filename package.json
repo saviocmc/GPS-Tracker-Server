@@ -1,0 +1,4 @@
+{
+	"name": "BusTracker Server",
+	"main": "server.js"
+}
